@@ -10,16 +10,13 @@ class SessionManager(object):
     def __init__(self, redis):
         self.redis = redis
 
-    def set_session(self, sessionid, identifier, ctx):
-        pipe = self.redis.pipeline()
-        pipe.hset("session:%s" % sessionid, identifier, ctx)
-        pipe.expire("session:%s" % sessionid, 3600)
-        pipe.execute()
+    def set_session(self, sessionid, identifier, ctx, expires=None):
+        self.redis.hset("session:%s" % sessionid, identifier, ctx)
+        if expires:
+            self.redis.expire("session:%s" % sessionid, int(expires))
 
     def get_session(self, sessionid, identifier):
         ctx = self.redis.hget("session:%s" % sessionid, identifier)
-        if ctx:
-            self.redis.expire("session:%s" % sessionid, 3600)
         return ctx
 
     def clear(self, sessionid, identifier):
@@ -53,3 +50,11 @@ class RedisSessionHandler(RequestHandler):
             self.set_cookie('tsessionid', sessionid)
 
         return self.__session_manager.set_session(sessionid, key, value)
+
+    def clear_session(self, key):
+        sessionid = self.get_sessionid()
+        return self.__session_manager.clear(sessionid, key)
+
+    def clear_all_session(self):
+        sessionid = self.get_sessionid()
+        return self.__session_manager.clear_all(sessionid)
