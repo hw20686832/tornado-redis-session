@@ -29,7 +29,7 @@ class SessionManager(object):
 class RedisSessionHandler(RequestHandler):
     def __init__(self, *args, **kwargs):
         super(RedisSessionHandler, self).__init__(*args, **kwargs)
-        _redis = redis.Redis(**self.settings['db'])
+        _redis = redis.Redis(**self.settings['redis'])
         self.__session_manager = SessionManager(_redis)
 
     def get_sessionid(self):

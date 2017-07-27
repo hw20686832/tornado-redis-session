@@ -29,7 +29,7 @@ def run():
         ],
         login_url='/login',
         debug=True,
-        db={
+        redis={
             'host': 'localhost',
             'db': 9
         }
