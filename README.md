@@ -6,7 +6,7 @@ Server side session middleware based on redis
 pip install tornado-redis-session
 ```
 
-### USEAGE
+### USAGE
 ```python
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
