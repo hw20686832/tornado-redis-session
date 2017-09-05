@@ -1,7 +1,8 @@
 # coding:utf-8
-import base64
+import random
+import datetime
+from hashlib import sha1
 
-import M2Crypto
 import redis
 from tornado.web import RequestHandler
 
@@ -36,7 +37,15 @@ class RedisSessionHandler(RequestHandler):
         return self.get_cookie('tsessionid')
 
     def __gen_sessionid(self):
-        return base64.b64encode(M2Crypto.m2.rand_bytes(16))
+        salt = "-".join((
+            str(datetime.datetime.now()),
+            str(random.random()),
+            self.request.remote_ip,
+            self.settings.get("cookie_secret")
+        ))
+        sessionid = sha1(salt).hexdigest()
+        sessionid = "TSESSIONID_%s" % sessionid
+        return sessionid
 
     def get_session(self, key):
         sessionid = self.get_sessionid()

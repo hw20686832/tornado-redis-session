@@ -3,7 +3,7 @@ from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from tornado.web import authenticated, Application
 
-from tornado_redis_session.session import RedisSessionHandler
+from tornado_redis_session import RedisSessionHandler
 
 
 class LoginHandler(RedisSessionHandler):
@@ -28,6 +28,7 @@ def run():
             (r'/', IndexHandler),
         ],
         login_url='/login',
+        cookie_secret='asdsadsadwqd132432rdews',
         debug=True,
         redis={
             'host': 'localhost',
