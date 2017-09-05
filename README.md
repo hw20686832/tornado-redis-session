@@ -37,6 +37,7 @@ def run():
             (r'/', IndexHandler),
         ],
         login_url='/login',
+        cookie_secret='asdsadsadwqd132432rdews',
         debug=True,
         redis={
             'host': 'localhost',
