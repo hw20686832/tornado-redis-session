@@ -30,8 +30,8 @@ class SessionManager(object):
 class RedisSessionHandler(RequestHandler):
     def __init__(self, *args, **kwargs):
         super(RedisSessionHandler, self).__init__(*args, **kwargs)
-        _redis = redis.Redis(**self.settings['redis'])
-        self.__session_manager = SessionManager(_redis)
+        self.redis = redis.Redis(**self.settings['redis'])
+        self.__session_manager = SessionManager(self.redis)
 
     def get_sessionid(self):
         return self.get_cookie('tsessionid')
