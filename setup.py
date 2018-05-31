@@ -4,7 +4,7 @@ from setuptools import setup
 setup(
     name='tornado-redis-session',
     packages=['tornado_redis_session'],
-    version='0.1.1',
+    version='0.1.2',
     description='Server side session middleware based on redis',
     author='David Wong',
     author_email='stef-hw@163.com',
