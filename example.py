@@ -9,7 +9,8 @@ from tornado_redis_session import RedisSessionHandler
 class LoginHandler(RedisSessionHandler):
     def get(self):
         name = self.get_argument("name")
-        self.set_session('user', name)
+        self.set_session('user', name, expires=10)
+        self.write("Welcome %s" % name)
 
 
 class IndexHandler(RedisSessionHandler):
