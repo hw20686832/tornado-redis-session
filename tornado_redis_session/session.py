@@ -57,12 +57,16 @@ class RedisSessionHandler(RequestHandler):
         if sessionid:
             return self.__session_manager.get_session(sessionid, key)
 
-    def set_session(self, key, value, expires=None):
+    def set_session(self, key, value, expires=0):
         sessionid = self.get_sessionid()
         if not sessionid:
             sessionid = self.__gen_sessionid()
             self.set_cookie('tsessionid', sessionid)
 
+        try:
+            expires = int(expires)
+        except:
+            raise Exception("Param: expires must be type of 'int'.")
         return self.__session_manager.set_session(sessionid, key, value,
                                                   expires=expires)
 
